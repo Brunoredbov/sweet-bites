@@ -20,12 +20,12 @@
                 <label for="senha">Nova senha</label>
                 <input type="password" id="senha" th:field="*{senha}" autocomplete="new-password" required>
                 <div class="ajuda">Mínimo de 8 caracteres, com letras e números.</div>
-                <span class="erro-campo" th:errors="*{senha}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('senha')}" th:text="${#fields.errors('senha')[0]}"></span>
             </div>
             <div class="campo" th:classappend="${#fields.hasErrors('confirmarSenha')} ? 'invalido'">
                 <label for="confirmarSenha">Confirmar nova senha</label>
                 <input type="password" id="confirmarSenha" th:field="*{confirmarSenha}" autocomplete="new-password" required>
-                <span class="erro-campo" th:errors="*{confirmarSenha}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('confirmarSenha')}" th:text="${#fields.errors('confirmarSenha')[0]}"></span>
             </div>
             <button type="submit" class="botao botao-bloco">Salvar nova senha</button>
         </form>

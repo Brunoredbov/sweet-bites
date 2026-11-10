@@ -1,0 +1,57 @@
+name: "🐞 Reportar um bug"
+description: Algo no Sweet Bites não funcionou como esperado
+title: "[Bug] "
+labels: ["bug", "teste-usuario"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por testar! Pagamentos e e-mails são **simulados**, então não use dados reais de cartão.
+        Siga o [roteiro de testes](https://github.com/Brunoredbov/sweet-bites/blob/main/situacao-3-testes-validacao/03-roteiro-para-testadores.md).
+  - type: input
+    id: testador
+    attributes:
+      label: Seu nome
+    validations:
+      required: true
+  - type: input
+    id: tarefa
+    attributes:
+      label: Tarefa do roteiro
+      placeholder: "ex.: 11 - Pagar com cartão aprovado"
+  - type: textarea
+    id: passos
+    attributes:
+      label: O que você fez (passo a passo)
+      placeholder: |
+        1. Entrei com minha conta
+        2. Adicionei 3 cupcakes
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: aconteceu
+    attributes:
+      label: O que aconteceu
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que você esperava
+  - type: textarea
+    id: prints
+    attributes:
+      label: Prints da tela
+      description: Arraste as imagens para cá.
+  - type: dropdown
+    id: dispositivo
+    attributes:
+      label: Aparelho
+      options:
+        - Celular Android
+        - iPhone
+        - Computador
+        - Tablet
+    validations:
+      required: true

@@ -1,0 +1,27 @@
+name: "💡 Sugerir melhoria"
+description: Uma ideia para deixar o Sweet Bites melhor
+title: "[Sugestão] "
+labels: ["melhoria", "teste-usuario"]
+body:
+  - type: input
+    id: testador
+    attributes:
+      label: Seu nome
+    validations:
+      required: true
+  - type: textarea
+    id: sugestao
+    attributes:
+      label: Sua sugestão
+      description: O que você mudaria ou acrescentaria, e por quê?
+    validations:
+      required: true
+  - type: textarea
+    id: prints
+    attributes:
+      label: Prints (opcional)
+  - type: dropdown
+    id: facilidade
+    attributes:
+      label: De 1 a 5, quão fácil foi usar o app?
+      options: ["5 - Muito fácil", "4", "3", "2", "1 - Muito difícil"]

@@ -11,7 +11,7 @@
 
         <form id="form-checkout" th:action="@{/pedidos}" th:object="${form}" method="post" novalidate>
             <input type="hidden" id="itens" th:field="*{itens}">
-            <span class="erro-campo" th:errors="*{itens}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('itens')}" th:text="${#fields.errors('itens')[0]}"></span>
 
             <!-- TELA-ENDERECO (UC-08 passo 4) -->
             <section class="secao" aria-labelledby="titulo-endereco">
@@ -30,7 +30,7 @@
                     <div class="campo" th:classappend="${#fields.hasErrors('numero')} ? 'invalido'">
                         <label for="numero">Número</label>
                         <input type="text" id="numero" th:field="*{numero}" maxlength="10" required>
-                        <span class="erro-campo" th:errors="*{numero}"></span>
+                        <span class="erro-campo" th:if="${#fields.hasErrors('numero')}" th:text="${#fields.errors('numero')[0]}"></span>
                     </div>
                     <div class="campo">
                         <label for="complemento">Complemento</label>
@@ -52,7 +52,7 @@
                         <span th:text="${fp.descricao}">Forma</span>
                     </label>
                 </div>
-                <span class="erro-campo" th:errors="*{formaPagamento}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('formaPagamento')}" th:text="${#fields.errors('formaPagamento')[0]}"></span>
 
                 <div id="campos-cartao" class="mt" hidden>
                     <div class="alerta alerta-demo" th:if="${modoDemonstracao}">

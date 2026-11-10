@@ -12,7 +12,7 @@
         <div class="campo" th:classappend="${#fields.hasErrors('nome')} ? 'invalido'">
             <label for="nome">Nome *</label>
             <input type="text" id="nome" th:field="*{nome}" maxlength="80" required>
-            <span class="erro-campo" th:errors="*{nome}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:text="${#fields.errors('nome')[0]}"></span>
         </div>
         <div class="campo" th:classappend="${#fields.hasErrors('categoriaId')} ? 'invalido'">
             <label for="categoriaId">Categoria *</label>
@@ -20,28 +20,28 @@
                 <option value="">Selecione…</option>
                 <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nome}">cat</option>
             </select>
-            <span class="erro-campo" th:errors="*{categoriaId}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('categoriaId')}" th:text="${#fields.errors('categoriaId')[0]}"></span>
         </div>
         <div class="campo" th:classappend="${#fields.hasErrors('preco')} ? 'invalido'">
             <label for="preco">Preço (R$) *</label>
             <input type="number" id="preco" th:field="*{preco}" min="0.01" step="0.01" required>
-            <span class="erro-campo" th:errors="*{preco}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('preco')}" th:text="${#fields.errors('preco')[0]}"></span>
         </div>
         <div class="campo" th:classappend="${#fields.hasErrors('estoque')} ? 'invalido'">
             <label for="estoque">Estoque *</label>
             <input type="number" id="estoque" th:field="*{estoque}" min="0" max="10000" required>
-            <span class="erro-campo" th:errors="*{estoque}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('estoque')}" th:text="${#fields.errors('estoque')[0]}"></span>
         </div>
         <div class="campo largo" th:classappend="${#fields.hasErrors('descricao')} ? 'invalido'">
             <label for="descricao">Descrição *</label>
             <textarea id="descricao" th:field="*{descricao}" maxlength="1000" required></textarea>
-            <span class="erro-campo" th:errors="*{descricao}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('descricao')}" th:text="${#fields.errors('descricao')[0]}"></span>
         </div>
         <div class="campo largo" th:classappend="${#fields.hasErrors('ingredientes')} ? 'invalido'">
             <label for="ingredientes">Ingredientes *</label>
             <input type="text" id="ingredientes" th:field="*{ingredientes}" maxlength="500" required>
             <div class="ajuda">Separados por vírgula. A busca da vitrine também procura por ingrediente.</div>
-            <span class="erro-campo" th:errors="*{ingredientes}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('ingredientes')}" th:text="${#fields.errors('ingredientes')[0]}"></span>
         </div>
         <div class="campo largo">
             <label for="imagem" th:text="${cupcakeId == null} ? 'Foto *' : 'Trocar foto'">Foto</label>

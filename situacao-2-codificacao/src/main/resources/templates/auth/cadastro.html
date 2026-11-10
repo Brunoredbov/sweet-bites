@@ -13,28 +13,28 @@
             <div class="campo" th:classappend="${#fields.hasErrors('nome')} ? 'invalido'">
                 <label for="nome">Nome completo</label>
                 <input type="text" id="nome" th:field="*{nome}" autocomplete="name" required maxlength="120">
-                <span class="erro-campo" th:errors="*{nome}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:text="${#fields.errors('nome')[0]}"></span>
             </div>
             <div class="campo" th:classappend="${#fields.hasErrors('email')} ? 'invalido'">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" th:field="*{email}" autocomplete="email" required maxlength="160">
-                <span class="erro-campo" th:errors="*{email}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email')[0]}"></span>
             </div>
             <div class="campo" th:classappend="${#fields.hasErrors('telefone')} ? 'invalido'">
                 <label for="telefone">Telefone</label>
                 <input type="tel" id="telefone" th:field="*{telefone}" autocomplete="tel" placeholder="(11) 91234-5678" required>
-                <span class="erro-campo" th:errors="*{telefone}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('telefone')}" th:text="${#fields.errors('telefone')[0]}"></span>
             </div>
             <div class="campo" th:classappend="${#fields.hasErrors('senha')} ? 'invalido'">
                 <label for="senha">Senha</label>
                 <input type="password" id="senha" th:field="*{senha}" autocomplete="new-password" required>
                 <div class="ajuda">Mínimo de 8 caracteres, com letras e números.</div>
-                <span class="erro-campo" th:errors="*{senha}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('senha')}" th:text="${#fields.errors('senha')[0]}"></span>
             </div>
             <div class="campo" th:classappend="${#fields.hasErrors('confirmarSenha')} ? 'invalido'">
                 <label for="confirmarSenha">Confirmar senha</label>
                 <input type="password" id="confirmarSenha" th:field="*{confirmarSenha}" autocomplete="new-password" required>
-                <span class="erro-campo" th:errors="*{confirmarSenha}"></span>
+                <span class="erro-campo" th:if="${#fields.hasErrors('confirmarSenha')}" th:text="${#fields.errors('confirmarSenha')[0]}"></span>
             </div>
             <button type="submit" class="botao botao-bloco">Criar conta</button>
         </form>

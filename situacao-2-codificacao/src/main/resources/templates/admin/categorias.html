@@ -10,7 +10,7 @@
         <div class="campo" th:classappend="${#fields.hasErrors('nome')} ? 'invalido'">
             <label for="nome">Nome</label>
             <input type="text" id="nome" th:field="*{nome}" maxlength="60" required>
-            <span class="erro-campo" th:errors="*{nome}"></span>
+            <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:text="${#fields.errors('nome')[0]}"></span>
         </div>
         <div class="campo">
             <label for="descricao">Descrição</label>
