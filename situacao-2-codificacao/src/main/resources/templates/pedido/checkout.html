@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Finalizar pedido')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Finalizar pedido')}"></header>
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
+    <main class="conteudo">
+        <a th:href="@{/carrinho}" class="voltar">← Voltar ao carrinho</a>
+        <h1>Finalizar pedido</h1>
+
+        <form id="form-checkout" th:action="@{/pedidos}" th:object="${form}" method="post" novalidate>
+            <input type="hidden" id="itens" th:field="*{itens}">
+            <span class="erro-campo" th:errors="*{itens}"></span>
+
+            <!-- TELA-ENDERECO (UC-08 passo 4) -->
+            <section class="secao" aria-labelledby="titulo-endereco">
+                <div class="secao-titulo"><span class="passo">1</span><h2 id="titulo-endereco">Endereço de entrega</h2></div>
+                <div class="campo" th:classappend="${#fields.hasErrors('cep')} ? 'invalido'">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" th:field="*{cep}" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required>
+                    <span class="erro-campo" id="erro-cep" aria-live="polite" th:text="${#fields.hasErrors('cep')} ? ${#fields.errors('cep')[0]} : ''"></span>
+                    <div class="ajuda" id="info-cep" hidden></div>
+                </div>
+                <div class="campo">
+                    <label for="logradouro">Rua</label>
+                    <input type="text" id="logradouro" th:field="*{logradouro}" autocomplete="address-line1" maxlength="160">
+                </div>
+                <div class="linha-campos">
+                    <div class="campo" th:classappend="${#fields.hasErrors('numero')} ? 'invalido'">
+                        <label for="numero">Número</label>
+                        <input type="text" id="numero" th:field="*{numero}" maxlength="10" required>
+                        <span class="erro-campo" th:errors="*{numero}"></span>
+                    </div>
+                    <div class="campo">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" id="complemento" th:field="*{complemento}" maxlength="80" placeholder="Apto, bloco…">
+                    </div>
+                </div>
+                <div class="campo">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" th:field="*{bairro}" maxlength="80">
+                </div>
+            </section>
+
+            <!-- TELA-PAGAMENTO (UC-08 passo 7) -->
+            <section class="secao" aria-labelledby="titulo-pagamento">
+                <div class="secao-titulo"><span class="passo">2</span><h2 id="titulo-pagamento">Forma de pagamento</h2></div>
+                <div class="opcoes-pagamento" role="radiogroup" aria-labelledby="titulo-pagamento">
+                    <label class="opcao" th:each="fp : ${formasPagamento}">
+                        <input type="radio" th:field="*{formaPagamento}" th:value="${fp}">
+                        <span th:text="${fp.descricao}">Forma</span>
+                    </label>
+                </div>
+                <span class="erro-campo" th:errors="*{formaPagamento}"></span>
+
+                <div id="campos-cartao" class="mt" hidden>
+                    <div class="alerta alerta-demo" th:if="${modoDemonstracao}">
+                        <strong>Pagamento simulado:</strong> use um cartão de teste, como 4111 1111 1111 1111, com
+                        qualquer validade futura e CVV. Cartões terminados em
+                        <strong th:text="${finalCartaoRecusado}">0002</strong> (ex.: 4000 0000 0000 0002) são recusados.
+                    </div>
+                    <div class="campo">
+                        <label for="numeroCartao">Número do cartão</label>
+                        <input type="text" id="numeroCartao" th:field="*{numeroCartao}" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="campo">
+                        <label for="nomeCartao">Nome impresso no cartão</label>
+                        <input type="text" id="nomeCartao" th:field="*{nomeCartao}" autocomplete="cc-name">
+                    </div>
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="validadeCartao">Validade</label>
+                            <input type="text" id="validadeCartao" th:field="*{validadeCartao}" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5">
+                        </div>
+                        <div class="campo">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" th:field="*{cvv}" inputmode="numeric" autocomplete="cc-csc" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="campo" id="bloco-parcelas">
+                        <label for="parcelas">Parcelas</label>
+                        <select id="parcelas" th:field="*{parcelas}">
+                            <option th:each="n : ${#numbers.sequence(1, maxParcelas)}" th:value="${n}"
+                                    th:text="${n} + 'x sem juros'">1x</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Resumo (UC-08 CA#3) -->
+            <section class="secao" aria-labelledby="titulo-resumo">
+                <div class="secao-titulo"><span class="passo">3</span><h2 id="titulo-resumo">Resumo do pedido</h2></div>
+                <div class="resumo">
+                    <div id="resumo-itens"></div>
+                    <div class="resumo-linha"><span>Subtotal</span><span id="resumo-subtotal">—</span></div>
+                    <div class="resumo-linha"><span>Frete</span><span id="resumo-frete">Informe o CEP</span></div>
+                    <div class="resumo-linha resumo-total"><span>Total</span><span id="resumo-total">—</span></div>
+                </div>
+            </section>
+
+            <button type="submit" id="botao-confirmar" class="botao botao-bloco">Confirmar pedido</button>
+        </form>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('carrinho')}"></nav>
+</div>
+</body>
+</html>

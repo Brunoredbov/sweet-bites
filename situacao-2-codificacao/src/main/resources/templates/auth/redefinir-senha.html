@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Redefinir senha')}"></head>
+<body>
+<main class="auth">
+    <div class="auth-cartao">
+        <div class="auth-marca">
+            <h1>Nova senha</h1>
+        </div>
+
+        <div class="painel-branco" th:if="${tokenInvalido}">
+            <div class="alerta alerta-erro" role="alert">Este link é inválido ou expirou. Solicite um novo.</div>
+            <a th:href="@{/recuperar-senha}" class="botao botao-bloco">Solicitar novo link</a>
+        </div>
+
+        <form th:unless="${tokenInvalido}" th:action="@{/redefinir-senha}" th:object="${form}" method="post" novalidate>
+            <div class="alerta alerta-erro" role="alert" th:if="${erro}" th:text="${erro}"></div>
+            <input type="hidden" th:field="*{token}">
+            <div class="campo" th:classappend="${#fields.hasErrors('senha')} ? 'invalido'">
+                <label for="senha">Nova senha</label>
+                <input type="password" id="senha" th:field="*{senha}" autocomplete="new-password" required>
+                <div class="ajuda">Mínimo de 8 caracteres, com letras e números.</div>
+                <span class="erro-campo" th:errors="*{senha}"></span>
+            </div>
+            <div class="campo" th:classappend="${#fields.hasErrors('confirmarSenha')} ? 'invalido'">
+                <label for="confirmarSenha">Confirmar nova senha</label>
+                <input type="password" id="confirmarSenha" th:field="*{confirmarSenha}" autocomplete="new-password" required>
+                <span class="erro-campo" th:errors="*{confirmarSenha}"></span>
+            </div>
+            <button type="submit" class="botao botao-bloco">Salvar nova senha</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

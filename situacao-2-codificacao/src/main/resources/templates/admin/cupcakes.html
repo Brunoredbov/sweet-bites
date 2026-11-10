@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Cupcakes')}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('cupcakes')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <div class="cabecalho-pagina">
+        <h1>Cupcakes</h1>
+        <a th:href="@{/admin/cupcakes/novo}" class="botao">+ Novo cupcake</a>
+    </div>
+    <div class="painel-branco tabela-container">
+        <table>
+            <thead><tr><th></th><th>Nome</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th></th></tr></thead>
+            <tbody>
+            <tr th:each="c : ${cupcakes}">
+                <td><img class="miniatura" th:src="@{/imagens/{id}(id=${c.imagemId})}" alt="" loading="lazy"></td>
+                <td th:text="${c.nome}">nome</td>
+                <td th:text="${c.categoria.nome}">cat</td>
+                <td th:text="'R$ ' + ${#numbers.formatDecimal(c.preco, 1, 'POINT', 2, 'COMMA')}">R$</td>
+                <td th:classappend="${c.estoqueBaixo} ? 'estoque-baixo'" th:text="${c.estoque}">0</td>
+                <td class="acoes">
+                    <a th:href="@{/admin/cupcakes/{id}/editar(id=${c.id})}" class="botao botao-pequeno botao-secundario">Editar</a>
+                    <form th:action="@{/admin/cupcakes/{id}/remover(id=${c.id})}" method="post"
+                          th:attr="data-confirmar='Remover ' + ${c.nome} + ' do cardápio?'">
+                        <button type="submit" class="botao botao-pequeno botao-perigo">Remover</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

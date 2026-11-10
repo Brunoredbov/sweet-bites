@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${cupcakeId == null} ? 'Novo cupcake' : 'Editar cupcake')}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('cupcakes')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <a th:href="@{/admin/cupcakes}" class="voltar">← Todos os cupcakes</a>
+    <h1 th:text="${cupcakeId == null} ? 'Novo cupcake' : 'Editar cupcake'">Cupcake</h1>
+    <form class="painel-branco grade-form" th:object="${form}" method="post" enctype="multipart/form-data" novalidate
+          th:action="${cupcakeId == null} ? @{/admin/cupcakes/novo} : @{/admin/cupcakes/{id}/editar(id=${cupcakeId})}">
+        <div class="campo" th:classappend="${#fields.hasErrors('nome')} ? 'invalido'">
+            <label for="nome">Nome *</label>
+            <input type="text" id="nome" th:field="*{nome}" maxlength="80" required>
+            <span class="erro-campo" th:errors="*{nome}"></span>
+        </div>
+        <div class="campo" th:classappend="${#fields.hasErrors('categoriaId')} ? 'invalido'">
+            <label for="categoriaId">Categoria *</label>
+            <select id="categoriaId" th:field="*{categoriaId}" required>
+                <option value="">Selecione…</option>
+                <option th:each="c : ${categorias}" th:value="${c.id}" th:text="${c.nome}">cat</option>
+            </select>
+            <span class="erro-campo" th:errors="*{categoriaId}"></span>
+        </div>
+        <div class="campo" th:classappend="${#fields.hasErrors('preco')} ? 'invalido'">
+            <label for="preco">Preço (R$) *</label>
+            <input type="number" id="preco" th:field="*{preco}" min="0.01" step="0.01" required>
+            <span class="erro-campo" th:errors="*{preco}"></span>
+        </div>
+        <div class="campo" th:classappend="${#fields.hasErrors('estoque')} ? 'invalido'">
+            <label for="estoque">Estoque *</label>
+            <input type="number" id="estoque" th:field="*{estoque}" min="0" max="10000" required>
+            <span class="erro-campo" th:errors="*{estoque}"></span>
+        </div>
+        <div class="campo largo" th:classappend="${#fields.hasErrors('descricao')} ? 'invalido'">
+            <label for="descricao">Descrição *</label>
+            <textarea id="descricao" th:field="*{descricao}" maxlength="1000" required></textarea>
+            <span class="erro-campo" th:errors="*{descricao}"></span>
+        </div>
+        <div class="campo largo" th:classappend="${#fields.hasErrors('ingredientes')} ? 'invalido'">
+            <label for="ingredientes">Ingredientes *</label>
+            <input type="text" id="ingredientes" th:field="*{ingredientes}" maxlength="500" required>
+            <div class="ajuda">Separados por vírgula. A busca da vitrine também procura por ingrediente.</div>
+            <span class="erro-campo" th:errors="*{ingredientes}"></span>
+        </div>
+        <div class="campo largo">
+            <label for="imagem" th:text="${cupcakeId == null} ? 'Foto *' : 'Trocar foto'">Foto</label>
+            <img id="preview" class="preview-imagem" alt="Pré-visualização da foto"
+                 th:src="${imagemAtualId != null} ? @{/imagens/{id}(id=${imagemAtualId})} : ''" th:hidden="${imagemAtualId == null}">
+            <input type="file" id="imagem" name="imagem" accept="image/jpeg,image/png" data-preview="preview">
+            <div class="ajuda">JPG ou PNG, até 5MB.</div>
+        </div>
+        <div class="largo">
+            <button type="submit" class="botao" th:text="${cupcakeId == null} ? 'Cadastrar cupcake' : 'Salvar alterações'">Salvar</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

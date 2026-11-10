@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Meu perfil')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Perfil')}"></header>
+    <main class="conteudo">
+        <div class="perfil-cabecalho">
+            <div class="avatar" th:text="${#strings.substring(usuario.nome, 0, 1)}">B</div>
+            <h1 th:text="${usuario.nome}">Nome</h1>
+            <div class="texto-suave" th:text="${usuario.username}">email</div>
+        </div>
+        <ul class="menu-lista">
+            <li><a th:href="@{/pedidos}">Meus pedidos</a></li>
+            <li><a th:href="@{/notificacoes}">Notificações</a></li>
+            <li><a th:href="@{/recuperar-senha}">Alterar senha</a></li>
+            <li th:if="${usuario.admin}"><a th:href="@{/admin}">Painel administrativo</a></li>
+        </ul>
+        <form th:action="@{/logout}" method="post" data-limpar-carrinho-ao-enviar>
+            <button type="submit" class="botao botao-bloco botao-perigo">Sair da conta</button>
+        </form>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('perfil')}"></nav>
+</div>
+</body>
+</html>

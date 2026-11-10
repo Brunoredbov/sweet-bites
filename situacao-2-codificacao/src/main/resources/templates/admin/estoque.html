@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Estoque')}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('estoque')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <h1>Estoque</h1>
+    <p class="texto-suave">Cupcakes com estoque zero aparecem como "Indisponível" na vitrine. O estoque baixa automaticamente a cada pedido confirmado.</p>
+    <div class="painel-branco tabela-container">
+        <table>
+            <thead><tr><th>Cupcake</th><th>Categoria</th><th>Atual</th><th>Nova quantidade</th></tr></thead>
+            <tbody>
+            <tr th:each="c : ${cupcakes}">
+                <td th:text="${c.nome}">nome</td>
+                <td th:text="${c.categoria.nome}">cat</td>
+                <td th:classappend="${c.estoqueBaixo} ? 'estoque-baixo'"
+                    th:text="${c.estoque == 0} ? 'Esgotado' : (${c.estoqueBaixo} ? ${c.estoque} + ' (baixo)' : ${c.estoque})">0</td>
+                <td>
+                    <form class="form-estoque" th:action="@{/admin/estoque/{id}(id=${c.id})}" method="post">
+                        <label class="sr-only" th:for="'qtd-' + ${c.id}" th:text="'Nova quantidade de ' + ${c.nome}">qtd</label>
+                        <input type="number" th:id="'qtd-' + ${c.id}" name="quantidade" min="0" max="10000" th:value="${c.estoque}" required>
+                        <button type="submit" class="botao botao-pequeno">Salvar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

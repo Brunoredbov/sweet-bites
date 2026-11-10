@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Meus pedidos')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Meus pedidos')}"></header>
+    <main class="conteudo">
+        <h1>Meus pedidos</h1>
+        <div class="vazio" th:if="${#lists.isEmpty(pedidos)}">
+            <strong>Você ainda não fez pedidos</strong>
+            <p>Seus pedidos aparecerão aqui.</p>
+            <a th:href="@{/}" class="botao">Ver cardápio</a>
+        </div>
+        <ul class="lista-pedidos" th:unless="${#lists.isEmpty(pedidos)}">
+            <li th:each="p : ${pedidos}">
+                <a th:href="@{/pedidos/{id}(id=${p.id})}">
+                    <div class="topo-item">
+                        <strong th:text="${p.numero}">#SB00001</strong>
+                        <span class="status" th:classappend="'status-' + ${p.status}" th:text="${p.status.descricao}">Status</span>
+                    </div>
+                    <div class="texto-suave" th:text="${#temporals.format(p.dataCriacao, 'dd/MM/yyyy HH:mm')} + ' · ' + ${p.formaPagamento.descricao}">data</div>
+                    <div class="preco" th:text="'R$ ' + ${#numbers.formatDecimal(p.valorTotal, 1, 'POINT', 2, 'COMMA')}">R$</div>
+                </a>
+            </li>
+        </ul>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('pedidos')}"></nav>
+</div>
+</body>
+</html>

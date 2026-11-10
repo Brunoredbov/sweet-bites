@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Cardápio')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Cardápio')}"></header>
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
+    <main class="conteudo">
+        <h1 th:text="'Olá, ' + ${usuario.primeiroNome} + '!'">Olá!</h1>
+        <p class="texto-suave">Qual cupcake vai adoçar seu dia?</p>
+
+        <form id="form-busca" class="busca" th:action="@{/}" method="get" role="search">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 0 1 6.32 12.9l5.39 5.4-1.41 1.4-5.4-5.38A8 8 0 1 1 10 2Zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z"/></svg>
+            <label for="campo-busca" class="sr-only">Buscar cupcakes</label>
+            <input type="search" id="campo-busca" name="busca" th:value="${busca}" placeholder="Buscar por nome ou ingrediente…" autocomplete="off">
+        </form>
+
+        <div class="chips" role="list">
+            <a role="listitem" class="chip" th:href="@{/}" data-categoria=""
+               th:classappend="${categoriaSelecionada == null} ? 'ativo'">Todos</a>
+            <a role="listitem" class="chip" th:each="c : ${categorias}" th:href="@{/(categoria=${c.id})}"
+               th:attr="data-categoria=${c.id}" th:text="${c.nome}"
+               th:classappend="${categoriaSelecionada == c.id} ? 'ativo'">Categoria</a>
+        </div>
+
+        <div id="grid-vitrine" th:attr="data-categoria=${categoriaSelecionada}">
+            <div th:fragment="grid">
+                <div class="grid-cupcakes" th:unless="${#lists.isEmpty(cupcakes)}">
+                    <article class="card" th:each="c : ${cupcakes}" th:classappend="${!c.disponivel} ? 'indisponivel'">
+                        <a class="card-link" th:href="@{/cupcakes/{id}(id=${c.id})}">
+                            <div class="card-foto">
+                                <img th:src="@{/imagens/{id}(id=${c.imagemId})}" th:alt="${c.nome}" loading="lazy" width="200" height="200">
+                                <span class="selo selo-indisponivel" th:unless="${c.disponivel}">Indisponível</span>
+                            </div>
+                        </a>
+                        <div class="card-corpo">
+                            <a class="card-link card-nome" th:href="@{/cupcakes/{id}(id=${c.id})}" th:text="${c.nome}">Nome</a>
+                            <span class="preco" th:text="'R$ ' + ${#numbers.formatDecimal(c.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</span>
+                            <button type="button" class="botao botao-pequeno" th:if="${c.disponivel}"
+                                    th:attr="data-adicionar=${c.id},data-estoque=${c.estoque},data-nome=${c.nome}">Adicionar</button>
+                            <button type="button" class="botao botao-pequeno" th:unless="${c.disponivel}" disabled>Indisponível</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="vazio" th:if="${#lists.isEmpty(cupcakes)}">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 0 1 6.32 12.9l5.39 5.4-1.41 1.4-5.4-5.38A8 8 0 1 1 10 2Zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z"/></svg>
+                    <strong>Produto não encontrado</strong>
+                    <p>Tente buscar por outro nome ou ingrediente.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('inicio')}"></nav>
+</div>
+</body>
+</html>

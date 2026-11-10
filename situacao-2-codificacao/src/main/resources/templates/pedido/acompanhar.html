@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pedido ' + ${pedido.numero})}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Pedido')}"></header>
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
+    <main class="conteudo"
+          th:attr="data-pedido-id=${pedido.id},data-status=${pedido.status},data-ativo=${pedido.status.permiteCancelamento()},data-limpar-carrinho=${recemConfirmado ? 'true' : null}">
+
+        <!-- TELA-CONFIRMACAO (UC-08 passo 11) -->
+        <div class="confirmado" th:if="${recemConfirmado}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1.2 14.6-4.3-4.3 1.4-1.4 2.9 2.9 6-6 1.4 1.4Z"/></svg>
+            <h1 th:text="${pedido.status.name() == 'AGUARDANDO_PAGAMENTO'} ? 'Pedido recebido!' : 'Pedido confirmado!'">Pedido confirmado!</h1>
+            <p th:text="'Obrigado, ' + ${usuario.primeiroNome} + '! Seu pedido foi recebido com sucesso.'">Obrigado!</p>
+        </div>
+
+        <div class="cabecalho-pagina">
+            <h1 th:unless="${recemConfirmado}" th:text="'Pedido ' + ${pedido.numero}">Pedido</h1>
+            <h2 th:if="${recemConfirmado}" th:text="'Pedido ' + ${pedido.numero}">Pedido</h2>
+            <span class="status" th:classappend="'status-' + ${pedido.status}" th:text="${pedido.status.descricao}">Status</span>
+        </div>
+
+        <!-- PIX pendente (US-09 CA#2) -->
+        <div class="pix" th:if="${pedido.pagamento.pixPendente and pedido.status.name() == 'AGUARDANDO_PAGAMENTO'}">
+            <h2>Pague com PIX</h2>
+            <p class="texto-suave" th:text="'Válido até ' + ${#temporals.format(pedido.pagamento.pixExpiraEm, 'HH:mm')} + ' (30 minutos). Depois disso o pedido é cancelado.'">Válido até</p>
+            <img th:src="@{/pedidos/{id}/pix.png(id=${pedido.id})}" alt="QR Code do PIX" width="200" height="200">
+            <label for="codigo-pix" class="sr-only">Código PIX copia e cola</label>
+            <textarea id="codigo-pix" rows="3" readonly th:text="${pedido.pagamento.pixCodigo}"></textarea>
+            <button type="button" class="botao botao-secundario botao-bloco mt" data-copiar="codigo-pix">Copiar código PIX</button>
+            <form th:if="${modoDemonstracao}" th:action="@{/pedidos/{id}/pix/simular-pagamento(id=${pedido.id})}" method="post" class="mt">
+                <div class="alerta alerta-demo">Modo demonstração: o PIX é fictício. Clique abaixo para simular o pagamento.</div>
+                <button type="submit" class="botao botao-bloco">Simular pagamento do PIX</button>
+            </form>
+        </div>
+
+        <!-- Acompanhamento (US-10) -->
+        <div th:unless="${pedido.status.name() == 'CANCELADO'}">
+            <p th:if="${pedido.status.name() != 'ENTREGUE' and pedido.status.name() != 'AGUARDANDO_PAGAMENTO'}">
+                Entrega estimada até <strong th:text="${#temporals.format(pedido.entrega.dataPrevista, 'HH:mm')}">00:00</strong>
+                (<span th:text="${pedido.entrega.tempoEstimadoMin}">45</span> min após a confirmação).
+            </p>
+            <ol class="linha-tempo" th:with="atual=${pedido.status.ordinal()}">
+                <li th:each="etapa, i : ${ {'Pedido recebido','Em preparação','Saiu para entrega','Entregue'} }"
+                    th:classappend="${(i.index <= atual ? 'feito' : '') + (i.index == atual ? ' atual' : '')}"
+                    th:text="${etapa}">Etapa</li>
+            </ol>
+        </div>
+        <div class="alerta alerta-aviso" th:if="${pedido.status.name() == 'CANCELADO'}">Este pedido foi cancelado.</div>
+
+        <h2>Itens</h2>
+        <div class="resumo">
+            <div class="resumo-linha" th:each="i : ${pedido.itens}">
+                <span th:text="${i.quantidade} + 'x ' + ${i.cupcake.nome}">1x Cupcake</span>
+                <span th:text="'R$ ' + ${#numbers.formatDecimal(i.calcularSubtotal(), 1, 'POINT', 2, 'COMMA')}">R$</span>
+            </div>
+            <div class="resumo-linha"><span>Frete</span><span th:text="'R$ ' + ${#numbers.formatDecimal(pedido.frete, 1, 'POINT', 2, 'COMMA')}">R$</span></div>
+            <div class="resumo-linha resumo-total"><span>Total</span><span th:text="'R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 1, 'POINT', 2, 'COMMA')}">R$</span></div>
+        </div>
+
+        <h2>Entrega</h2>
+        <p th:text="${pedido.entrega.enderecoFormatado}">Endereço</p>
+
+        <h2>Pagamento</h2>
+        <p>
+            <span th:text="${pedido.formaPagamento.descricao}">Forma</span>
+            <span th:if="${pedido.pagamento.cartaoFinal != null}" th:text="' final ' + ${pedido.pagamento.cartaoFinal} + ' · ' + ${pedido.pagamento.parcelas} + 'x sem juros'"></span>
+        </p>
+
+        <form th:if="${pedido.status.name() == 'AGUARDANDO_PAGAMENTO' or pedido.status.name() == 'EM_PREPARACAO'}"
+              th:action="@{/pedidos/{id}/cancelar(id=${pedido.id})}" method="post"
+              data-confirmar="Tem certeza que deseja cancelar este pedido?">
+            <button type="submit" class="botao botao-bloco botao-perigo">Cancelar pedido</button>
+        </form>
+        <a th:href="@{/}" class="botao botao-bloco botao-secundario mt">Voltar à loja</a>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('pedidos')}"></nav>
+</div>
+</body>
+</html>

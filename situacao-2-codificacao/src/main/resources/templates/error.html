@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Algo deu errado · Sweet Bites</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main class="auth">
+    <div class="auth-cartao painel-branco centro">
+        <h1 th:if="${status == 403}">Acesso negado</h1>
+        <h1 th:if="${status == 404}">Página não encontrada</h1>
+        <h1 th:unless="${status == 403 or status == 404}">Algo deu errado</h1>
+        <p class="texto-suave" th:if="${status == 403}">Você não tem permissão para acessar esta área.</p>
+        <p class="texto-suave" th:unless="${status == 403}">Tente novamente em instantes. Se o problema continuar, fale com a loja.</p>
+        <a th:href="@{/}" class="botao botao-bloco">Voltar ao início</a>
+    </div>
+</main>
+</body>
+</html>

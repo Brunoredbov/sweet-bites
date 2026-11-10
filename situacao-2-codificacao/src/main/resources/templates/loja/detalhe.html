@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${cupcake.nome})}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo(${cupcake.nome})}"></header>
+    <main>
+        <div class="detalhe-foto">
+            <img th:src="@{/imagens/{id}(id=${cupcake.imagemId})}" th:alt="${cupcake.nome}" width="480" height="360">
+        </div>
+        <div class="detalhe-corpo">
+            <a th:href="@{/}" class="voltar">← Voltar ao cardápio</a>
+            <h1 th:text="${cupcake.nome}">Nome</h1>
+            <div class="preco" th:text="'R$ ' + ${#numbers.formatDecimal(cupcake.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</div>
+            <div class="texto-suave">Impostos inclusos</div>
+            <div class="tags">
+                <span class="tag" th:text="${cupcake.categoria.nome}">Categoria</span>
+                <span class="tag" th:if="${cupcake.disponivel and cupcake.estoqueBaixo}" th:text="'Últimas ' + ${cupcake.estoque} + ' unidades'">Últimas</span>
+            </div>
+            <p th:text="${cupcake.descricao}">Descrição</p>
+            <h2>Ingredientes</h2>
+            <p class="texto-suave" th:text="${cupcake.ingredientes}">Ingredientes</p>
+
+            <div th:if="${cupcake.disponivel}">
+                <div class="seletor-qtd">
+                    <button type="button" data-qtd-menos aria-label="Diminuir quantidade">−</button>
+                    <output data-qtd-saida th:attr="data-max=${cupcake.estoque}" aria-live="polite">1</output>
+                    <button type="button" class="mais" data-qtd-mais aria-label="Aumentar quantidade">+</button>
+                </div>
+                <button type="button" class="botao botao-bloco" data-usa-seletor
+                        th:attr="data-adicionar=${cupcake.id},data-estoque=${cupcake.estoque},data-nome=${cupcake.nome}">
+                    Adicionar ao carrinho
+                </button>
+                <a th:href="@{/carrinho}" class="botao botao-bloco botao-secundario mt">Ver carrinho</a>
+            </div>
+            <div class="alerta alerta-aviso mt" th:unless="${cupcake.disponivel}">
+                Este cupcake está indisponível no momento. Volte mais tarde!
+            </div>
+        </div>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('inicio')}"></nav>
+</div>
+</body>
+</html>

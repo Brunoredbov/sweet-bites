@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Notificações')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Notificações')}"></header>
+    <main class="conteudo">
+        <h1>Notificações</h1>
+        <div class="vazio" th:if="${#lists.isEmpty(notificacoes)}">
+            <strong>Nenhuma notificação por aqui</strong>
+            <p>Avisaremos sobre cada mudança no status dos seus pedidos.</p>
+        </div>
+        <div class="notificacao" th:each="n : ${notificacoes}" th:classappend="${!n.lida} ? 'nova'">
+            <a th:if="${n.pedidoId != null}" th:href="@{/pedidos/{id}(id=${n.pedidoId})}" th:text="${n.mensagem}">mensagem</a>
+            <span th:unless="${n.pedidoId != null}" th:text="${n.mensagem}">mensagem</span>
+            <div class="texto-suave" th:text="${#temporals.format(n.dataCriacao, 'dd/MM/yyyy HH:mm')}">data</div>
+        </div>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('perfil')}"></nav>
+</div>
+</body>
+</html>

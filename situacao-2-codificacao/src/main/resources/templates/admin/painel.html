@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Painel')}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('painel')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <h1>Painel</h1>
+    <div class="cartoes-resumo">
+        <a class="cartao-resumo" th:each="e : ${painel.pedidosPorStatus}" th:href="@{/admin/pedidos(status=${e.key})}">
+            <div class="numero" th:text="${e.value}">0</div>
+            <div th:text="${e.key.descricao}">Status</div>
+        </a>
+    </div>
+
+    <section class="painel-branco">
+        <div class="cabecalho-pagina">
+            <h2>Alerta de estoque baixo (menos de 5 unidades)</h2>
+            <a th:href="@{/admin/estoque}" class="botao botao-pequeno">Gerenciar estoque</a>
+        </div>
+        <p class="texto-suave" th:if="${#lists.isEmpty(painel.estoqueBaixo)}">Nenhum cupcake com estoque baixo.</p>
+        <div class="tabela-container" th:unless="${#lists.isEmpty(painel.estoqueBaixo)}">
+            <table>
+                <thead><tr><th>Cupcake</th><th>Categoria</th><th>Estoque</th></tr></thead>
+                <tbody>
+                <tr th:each="c : ${painel.estoqueBaixo}">
+                    <td th:text="${c.nome}">Nome</td>
+                    <td th:text="${c.categoria.nome}">Categoria</td>
+                    <td class="estoque-baixo" th:text="${c.estoque == 0} ? 'Esgotado' : ${c.estoque}">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

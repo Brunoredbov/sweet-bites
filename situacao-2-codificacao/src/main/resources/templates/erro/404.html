@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Não encontrado')}"></head>
+<body>
+<main class="auth">
+    <div class="auth-cartao painel-branco centro">
+        <h1>Ops! Não encontramos essa página</h1>
+        <p class="texto-suave">O item que você procura não existe ou não está mais disponível.</p>
+        <a th:href="@{/}" class="botao botao-bloco">Voltar ao cardápio</a>
+    </div>
+</main>
+</body>
+</html>

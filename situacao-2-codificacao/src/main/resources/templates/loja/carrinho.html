@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Carrinho')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Carrinho')}"></header>
+    <main class="conteudo">
+        <h1>Meu carrinho</h1>
+
+        <div id="carrinho-vazio" class="vazio" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.9 2H20a1 1 0 0 1 .9 1.45l-3.4 6.5a2 2 0 0 1-1.76 1.05H8.1l-.9 1.6V17h12v-2H8.4l.6-1h7.7l3.6-7H6.6L5.4 2H2v2Z"/></svg>
+            <strong>Seu carrinho está vazio</strong>
+            <p>Que tal escolher um cupcake?</p>
+            <a th:href="@{/}" class="botao">Ver cardápio</a>
+        </div>
+
+        <div id="carrinho-conteudo" hidden>
+            <ul id="itens-carrinho" class="lista-sem-marcador"></ul>
+            <div class="resumo">
+                <div class="resumo-linha resumo-total"><span>Subtotal</span><span id="subtotal-carrinho">R$ 0,00</span></div>
+                <div class="texto-suave">O frete é calculado na próxima etapa.</div>
+            </div>
+            <div id="avisos-carrinho" aria-live="polite"></div>
+            <a id="botao-finalizar" th:href="@{/checkout}" class="botao botao-bloco">Finalizar pedido</a>
+            <a th:href="@{/}" class="botao botao-bloco botao-secundario mt">Continuar comprando</a>
+        </div>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('carrinho')}"></nav>
+</div>
+</body>
+</html>

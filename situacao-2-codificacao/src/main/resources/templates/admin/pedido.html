@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pedido ' + ${pedido.numero})}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('pedidos')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <a th:href="@{/admin/pedidos}" class="voltar">← Todos os pedidos</a>
+    <div class="cabecalho-pagina">
+        <h1 th:text="'Pedido ' + ${pedido.numero}">Pedido</h1>
+        <span class="status" th:classappend="'status-' + ${pedido.status}" th:text="${pedido.status.descricao}">status</span>
+    </div>
+
+    <section class="painel-branco">
+        <h2>Atualizar status</h2>
+        <p class="texto-suave">O cliente é notificado automaticamente a cada mudança.</p>
+        <div class="acoes">
+            <form th:if="${pedido.status.proximo() != null}" th:action="@{/admin/pedidos/{id}/status(id=${pedido.id})}" method="post">
+                <input type="hidden" name="status" th:value="${pedido.status.proximo()}">
+                <button type="submit" class="botao" th:text="'Marcar como: ' + ${pedido.status.proximo().descricao}">Avançar</button>
+            </form>
+            <form th:if="${pedido.status.permiteCancelamento()}" th:action="@{/admin/pedidos/{id}/status(id=${pedido.id})}" method="post"
+                  data-confirmar="Cancelar este pedido? O estoque será devolvido.">
+                <input type="hidden" name="status" value="CANCELADO">
+                <button type="submit" class="botao botao-perigo">Cancelar pedido</button>
+            </form>
+            <p class="texto-suave" th:if="${pedido.status.name() == 'AGUARDANDO_PAGAMENTO'}">Aguardando o cliente pagar o PIX.</p>
+            <p class="texto-suave" th:if="${pedido.status.name() == 'ENTREGUE'}">Pedido entregue: não pode mais ser alterado nem cancelado.</p>
+        </div>
+    </section>
+
+    <section class="painel-branco">
+        <h2>Itens</h2>
+        <div class="tabela-container">
+            <table>
+                <thead><tr><th>Cupcake</th><th>Qtd.</th><th>Preço unit.</th><th>Subtotal</th></tr></thead>
+                <tbody>
+                <tr th:each="i : ${pedido.itens}">
+                    <td th:text="${i.cupcake.nome}">nome</td>
+                    <td th:text="${i.quantidade}">1</td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(i.precoUnitario, 1, 'POINT', 2, 'COMMA')}">R$</td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(i.calcularSubtotal(), 1, 'POINT', 2, 'COMMA')}">R$</td>
+                </tr>
+                <tr><td colspan="3">Frete</td><td th:text="'R$ ' + ${#numbers.formatDecimal(pedido.frete, 1, 'POINT', 2, 'COMMA')}">R$</td></tr>
+                <tr><td colspan="3"><strong>Total</strong></td><td><strong th:text="'R$ ' + ${#numbers.formatDecimal(pedido.valorTotal, 1, 'POINT', 2, 'COMMA')}">R$</strong></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="painel-branco">
+        <h2>Cliente e entrega</h2>
+        <p><strong th:text="${pedido.usuario.nome}">Nome</strong> · <span th:text="${pedido.usuario.telefone}">tel</span></p>
+        <p th:text="${pedido.entrega.enderecoFormatado}">Endereço</p>
+        <p class="texto-suave" th:text="'Pedido feito em ' + ${#temporals.format(pedido.dataCriacao, 'dd/MM/yyyy HH:mm')} + ' · previsão ' + ${#temporals.format(pedido.entrega.dataPrevista, 'dd/MM HH:mm')}">datas</p>
+    </section>
+
+    <section class="painel-branco">
+        <h2>Pagamento</h2>
+        <p>
+            <span th:text="${pedido.formaPagamento.descricao}">forma</span> ·
+            <span th:text="${pedido.pagamento.status}">status</span>
+            <span th:if="${pedido.pagamento.cartaoFinal != null}" th:text="' · final ' + ${pedido.pagamento.cartaoFinal} + ' · ' + ${pedido.pagamento.parcelas} + 'x'"></span>
+        </p>
+    </section>
+</main>
+</body>
+</html>

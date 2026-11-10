@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Entrar')}"></head>
+<body>
+<main class="auth">
+    <div class="auth-cartao">
+        <div class="auth-marca">
+            <img th:src="@{/favicon.svg}" alt="">
+            <h1>Sweet Bites</h1>
+            <p>Cupcakes gourmet na sua porta</p>
+        </div>
+
+        <form th:action="@{/login}" method="post" novalidate>
+            <div class="alerta alerta-sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></div>
+            <div class="alerta alerta-sucesso" role="status" th:if="${param.saiu}">Você saiu da sua conta.</div>
+            <div class="alerta alerta-aviso" role="status" th:if="${param.expirada}">Sua sessão foi encerrada. Entre novamente.</div>
+            <div class="alerta alerta-erro" role="alert" th:if="${param.erro != null and param.erro[0] == 'credenciais'}">E-mail ou senha incorretos.</div>
+            <div class="alerta alerta-erro" role="alert" th:if="${param.erro != null and param.erro[0] == 'bloqueada'}">
+                Sua conta foi bloqueada após 5 tentativas incorretas. Use <a th:href="@{/recuperar-senha}">Esqueci minha senha</a> para desbloquear.
+            </div>
+
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" autocomplete="username" placeholder="seuemail@exemplo.com" required autofocus>
+            </div>
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+                <div class="ajuda direita"><a th:href="@{/recuperar-senha}">Esqueci minha senha</a></div>
+            </div>
+            <button type="submit" class="botao botao-bloco">Entrar</button>
+        </form>
+
+        <p class="rodape-auth">Não tem uma conta? <a th:href="@{/cadastro}">Cadastre-se</a></p>
+    </div>
+</main>
+</body>
+</html>

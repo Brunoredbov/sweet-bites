@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Pedidos')}"></head>
+<body class="admin">
+<header th:replace="~{fragments/layout :: topoAdmin('pedidos')}"></header>
+<div th:replace="~{fragments/layout :: mensagens}"></div>
+<main class="admin-conteudo">
+    <h1>Pedidos</h1>
+    <form class="painel-branco filtros" th:action="@{/admin/pedidos}" method="get">
+        <div class="campo">
+            <label for="status">Status</label>
+            <select id="status" name="status">
+                <option value="">Todos</option>
+                <option th:each="s : ${statusList}" th:value="${s}" th:text="${s.descricao}" th:selected="${s == statusSelecionado}">Status</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="de">De</label>
+            <input type="date" id="de" name="de" th:value="${de}">
+        </div>
+        <div class="campo">
+            <label for="ate">Até</label>
+            <input type="date" id="ate" name="ate" th:value="${ate}">
+        </div>
+        <button type="submit" class="botao">Filtrar</button>
+        <a th:href="@{/admin/pedidos}" class="botao botao-secundario">Limpar</a>
+    </form>
+
+    <div class="painel-branco">
+        <p class="texto-suave" th:if="${#lists.isEmpty(pedidos)}">Nenhum pedido encontrado com esses filtros.</p>
+        <div class="tabela-container" th:unless="${#lists.isEmpty(pedidos)}">
+            <table>
+                <thead><tr><th>Pedido</th><th>Data</th><th>Cliente</th><th>Pagamento</th><th>Total</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                <tr th:each="p : ${pedidos}">
+                    <td><strong th:text="${p.numero}">#</strong></td>
+                    <td th:text="${#temporals.format(p.dataCriacao, 'dd/MM/yyyy HH:mm')}">data</td>
+                    <td th:text="${p.usuario.nome}">cliente</td>
+                    <td th:text="${p.formaPagamento.descricao}">forma</td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(p.valorTotal, 1, 'POINT', 2, 'COMMA')}">R$</td>
+                    <td><span class="status" th:classappend="'status-' + ${p.status}" th:text="${p.status.descricao}">status</span></td>
+                    <td><a th:href="@{/admin/pedidos/{id}(id=${p.id})}" class="botao botao-pequeno botao-secundario">Abrir</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>
