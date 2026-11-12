@@ -12,11 +12,12 @@
 
 | Indicador | Resultado |
 |---|---|
-| Testes automatizados | **47 de 47 aprovados** (37 unitários + 10 de integração) |
-| Histórias das Sprints 1 a 3 | 16 de 16 implementadas (4 com ajustes documentados) |
+| Testes automatizados | **56 de 56 aprovados** (37 unitários + 19 de integração) |
+| Histórias das Sprints 1 a 3 | 17 de 17 implementadas (4 com ajustes documentados) |
 | Cenários manuais executados | 13 de 13 aprovados, após as correções |
-| Defeitos encontrados | **5** (3 altos, 1 médio, 1 baixo) |
-| Defeitos corrigidos e retestados | **5 de 5** |
+| Roteiro de aceitação (20 tarefas) | 54 de 54 verificações aprovadas |
+| Defeitos encontrados | **14**: 5 na 1ª rodada (3 altos, 1 médio, 1 baixo) e 9 na 2ª rodada (3 médios, 6 baixos) |
+| Defeitos corrigidos e retestados | **14 de 14** |
 | Defeitos em aberto | 0 |
 
 **Parecer:** o sistema está **apto para os testes com usuários (validação)**. Os pontos da seção 4 são limitações conhecidas e documentadas, não defeitos.
@@ -60,6 +61,24 @@
 - **Reteste:** ✅ uma mensagem por campo.
 - **Evidências:** antes, [bug05-mensagens-duplicadas.jpg](evidencias/bug05-mensagens-duplicadas.jpg); depois, [bug05-corrigido-uma-mensagem.jpg](evidencias/bug05-corrigido-uma-mensagem.jpg).
 
+## 2.1 Segunda rodada: revisão de qualidade pós-aceitação (10/11/2026)
+
+Depois do roteiro de aceitação, o sistema foi revisado procurando **casos extremos e problemas de usabilidade**: sessão expirada, troca de usuário no mesmo aparelho, URLs digitadas à mão, filtros incoerentes e arquivos grandes. Os 9 problemas encontrados foram corrigidos, ganharam testes automatizados (`CorrecoesRodada2Test`, 9 testes) e foram retestados no navegador. A versão antiga foi fotografada antes da correção, e a nova, depois.
+
+| ID | Problema encontrado | Sev. | Correção | Antes → depois |
+|---|---|---|---|---|
+| BUG-06 | Com a sessão expirada, enviar um formulário (ex.: confirmar o pedido) mostrava **"Acesso negado – você não tem permissão"**, mensagem errada e assustadora | Média | Token de segurança (CSRF) vencido agora leva ao login com "Sua sessão foi encerrada. Entre novamente." | [antes](evidencias/bug06-sessao-expirada-acesso-negado.jpg) → [depois](evidencias/bug06-corrigido-volta-ao-login.jpg) |
+| BUG-07 | Sem sessão, a API do acompanhamento respondia com a página de login (HTML), e a tela do pedido **parava de atualizar sem avisar** | Baixa | A API responde 401 e o JavaScript leva o cliente ao login | teste `bug07ApiSemSessaoResponde401ParaOJavaScript` |
+| BUG-08 | "Alterar senha" no perfil abria o fluxo de **"Esqueci minha senha"** (pedia e-mail e link) mesmo com o cliente logado | Média | Nova tela **Perfil → Alterar senha** (senha atual + nova senha), avisando quando a senha atual está errada ou a nova é igual à atual | [antes](evidencias/bug08-alterar-senha-ia-para-esqueci.jpg) → [depois](evidencias/bug08-corrigido-tela-alterar-senha.jpg) |
+| BUG-09 | O carrinho ficava salvo no navegador sem dono: quem saía pelo "Sair" do painel (ou tinha a sessão expirada) **deixava o carrinho para o próximo usuário** (a cliente viu o Pistache colocado pelo admin) | Média | Carrinho separado por usuário (chave com o id da conta); a chave antiga, compartilhada, é apagada | [antes](evidencias/bug09-carrinho-do-admin-com-a-cliente.jpg) → [depois](evidencias/bug09-corrigido-carrinho-separado.jpg) |
+| BUG-10 | No admin, o status do pagamento aparecia como código interno (**"APROVADO"**, "PENDENTE") | Baixa | Status com descrição em português ("Aprovado", "Pendente") | [antes](evidencias/bug10-pagamento-APROVADO-em-maiusculas.jpg) → [depois](evidencias/bug10-corrigido-pagamento-aprovado.jpg) |
+| BUG-11 | Filtro de pedidos com a data inicial **depois** da final mostrava só "Nenhum pedido encontrado", sem dizer o motivo | Baixa | Aviso: "A data inicial é posterior à data final. Ajuste o período." | [antes](evidencias/bug11-periodo-invertido-sem-aviso.jpg) → [depois](evidencias/bug11-corrigido-aviso-periodo.jpg) |
+| BUG-12 | URL com código inválido (ex.: `/cupcakes/abc`) mostrava **"Algo deu errado"** (erro 400) | Baixa | Mostra a página "Ops! Não encontramos essa página" (404) | [antes](evidencias/bug12-id-invalido-algo-deu-errado.jpg) → [depois](evidencias/bug12-corrigido-pagina-404.jpg) |
+| BUG-13 | Cliente já logado que abria `/login` ou `/cadastro` via de novo o formulário de entrada | Baixa | Redireciona para a vitrine (ou para o painel, se for admin) | [antes](evidencias/bug13-logado-ve-tela-de-login.jpg) → teste `bug13UsuarioLogadoNaoVeTelaDeLoginDeNovo` |
+| BUG-14 | Imagem entre 5 e 10MB enviada sem passar pelo JavaScript gerava erro genérico (HTTP 413), porque o limite do servidor estourava antes da validação | Baixa | O limite técnico do servidor subiu para 10MB e a regra de 5MB ficou no validador, com a mensagem "A imagem deve ter no máximo 5MB."; a página de erro também explica o caso 413 | teste `bug14ImagemEntre5e10MBRecebeMensagemAmigavel` + reteste com 6MB no servidor real |
+
+**Lição aprendida:** a primeira versão da correção BUG-07 fez **todas** as páginas responderem 401 para requisições sem cabeçalho de navegador. O teste antigo `visitanteEhRedirecionadoParaOLogin` pegou a regressão na hora, e a regra foi restrita a `/api/**`. Depois das correções, o roteiro de aceitação foi executado de novo: **54 de 54**.
+
 ## 3. Regras de negócio verificadas com sucesso
 
 | Regra | Evidência |
@@ -81,10 +100,6 @@
 | L4 | Hospedagem gratuita "dorme" depois de 15 min sem uso | O primeiro acesso pode levar cerca de 1 minuto | Avisar os testadores no roteiro |
 | L5 | US-11, US-12 (repetir pedido), US-13 e US-17 não implementadas | Fora do escopo das Sprints 1 a 3 | Sprint 4 |
 
-## 5. Defeitos reportados pelos testadores
+## 5. Testes de aceitação (roteiro completo)
 
-> **A preencher** depois dos testes com os 5 colegas (ver [resultados](05-resultados-testes-usuarios.md)). Para cada item: descrição, testador, severidade, correção aplicada, reteste e print.
-
-| ID | Descrição | Testador | Severidade | Correção | Reteste |
-|---|---|---|---|---|---|
-| | | | | | |
+O roteiro de 20 tarefas foi executado pelo desenvolvedor em 10/11/2026 (os colegas convidados não puderam testar no prazo): **54 de 54 verificações automatizadas aprovadas**. A exploração manual das mesmas áreas encontrou os 9 problemas BUG-06 a BUG-14, corrigidos na 2ª rodada (seção 2.1). Depois das correções, o roteiro foi repetido com 54 de 54. Os detalhes de cada rodada estão em [Resultados dos testes de aceitação](05-resultados-testes-usuarios.md).

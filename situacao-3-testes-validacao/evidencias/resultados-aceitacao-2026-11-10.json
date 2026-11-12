@@ -1,0 +1,380 @@
+[
+ {
+  "grupo": 1,
+  "tarefa": 1,
+  "desc": "Cadastro com senha fraca é recusado",
+  "ok": true,
+  "obs": "mensagem \"A senha deve ter no mínimo 8 caracteres, com letras e números.\""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 1,
+  "desc": "Cadastro com dados válidos",
+  "ok": true,
+  "obs": "HTTP 302 → http://localhost:8090/login"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 1,
+  "desc": "Mensagem de conta criada no login",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 1,
+  "desc": "E-mail repetido (em maiúsculas) é recusado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 2,
+  "desc": "Login com a conta criada",
+  "ok": true,
+  "obs": "→ http://localhost:8090/"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 2,
+  "desc": "Vitrine saúda o cliente pelo nome",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 16,
+  "desc": "Logout volta ao login",
+  "ok": true,
+  "obs": "→ http://localhost:8090/login?saiu"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 16,
+  "desc": "Após sair, a vitrine exige login de novo",
+  "ok": true,
+  "obs": "→ http://localhost:8090/login"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 2,
+  "desc": "5 senhas erradas bloqueiam a conta",
+  "ok": true,
+  "obs": "erro=credenciais, erro=credenciais, erro=credenciais, erro=credenciais, erro=bloqueada"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 2,
+  "desc": "Conta bloqueada não entra nem com a senha certa",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 15,
+  "desc": "Esqueci minha senha mostra o link (modo demonstração)",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 1,
+  "tarefa": 15,
+  "desc": "Senha redefinida pelo link",
+  "ok": true,
+  "obs": "→ http://localhost:8090/login"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 15,
+  "desc": "Login com a nova senha e conta desbloqueada",
+  "ok": true,
+  "obs": "→ http://localhost:8090/"
+ },
+ {
+  "grupo": 1,
+  "tarefa": 15,
+  "desc": "O mesmo link não funciona duas vezes",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 2,
+  "tarefa": 3,
+  "desc": "Vitrine lista os cupcakes e as categorias",
+  "ok": true,
+  "obs": "10 cupcakes, categorias: Baunilha, Chocolate, Especiais, Frutas, Red Velvet"
+ },
+ {
+  "grupo": 2,
+  "tarefa": 3,
+  "desc": "Filtro \"Chocolate\"",
+  "ok": true,
+  "obs": "Brigadeiro Gourmet, Chocolate Belga"
+ },
+ {
+  "grupo": 2,
+  "tarefa": 4,
+  "desc": "Busca \"MORANGO\" (nome e ingrediente, sem diferenciar maiúsculas)",
+  "ok": true,
+  "obs": "Morango Festa, Red Velvet Morango"
+ },
+ {
+  "grupo": 2,
+  "tarefa": 4,
+  "desc": "Busca sem resultado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 2,
+  "tarefa": 5,
+  "desc": "Cupcake sem estoque não pode ser comprado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 2,
+  "tarefa": 6,
+  "desc": "Detalhes com descrição, ingredientes, preço e botão de adicionar",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 2,
+  "tarefa": 7,
+  "desc": "Carrinho limita a 20 unidades por item e recalcula no servidor",
+  "ok": true,
+  "obs": "subtotal R$ 312.90; aviso: Red Velvet Divine: máximo de 20 unidades por item."
+ },
+ {
+  "grupo": 2,
+  "tarefa": 8,
+  "desc": "Carrinho abaixo de R$ 15,00 é sinalizado",
+  "ok": true,
+  "obs": "subtotal R$ 14.50"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 9,
+  "desc": "CEP do Rio de Janeiro: fora da área",
+  "ok": true,
+  "obs": "Ainda não entregamos em Rio de Janeiro/RJ. Entregamos apenas no estado de SP."
+ },
+ {
+  "grupo": 3,
+  "tarefa": 9,
+  "desc": "CEP inexistente",
+  "ok": true,
+  "obs": "CEP não encontrado. Verifique o endereço."
+ },
+ {
+  "grupo": 3,
+  "tarefa": 9,
+  "desc": "CEP de São Paulo: frete R$ 7,00 / 45 min",
+  "ok": true,
+  "obs": "Avenida Paulista, São Paulo/SP"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 9,
+  "desc": "CEP de Campinas: frete R$ 15,00 / 120 min",
+  "ok": true,
+  "obs": "Campinas"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 8,
+  "desc": "Finalizar abaixo do mínimo mostra o aviso",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 3,
+  "tarefa": 9,
+  "desc": "Quantidade acima do estoque é recusada",
+  "ok": true,
+  "obs": "Red Velvet Morango: só temos 4 unidade(s)"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 10,
+  "desc": "Cartão 4000 0000 0000 0002 é recusado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 3,
+  "tarefa": 10,
+  "desc": "Recusa não altera o estoque",
+  "ok": true,
+  "obs": "30 → 30"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 11,
+  "desc": "Cartão 4111 aprovado: \"Pedido confirmado!\"",
+  "ok": true,
+  "obs": "pedido #00003, 2x sem juros"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 11,
+  "desc": "Estoque baixa após a compra",
+  "ok": true,
+  "obs": "30 → 28"
+ },
+ {
+  "grupo": 3,
+  "tarefa": 12,
+  "desc": "PIX: pedido aguardando pagamento com QR Code e código",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 3,
+  "tarefa": 12,
+  "desc": "Imagem do QR Code é gerada",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 3,
+  "tarefa": 12,
+  "desc": "Simular pagamento do PIX leva a \"Em preparação\"",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 4,
+  "tarefa": 13,
+  "desc": "\"Meus pedidos\" lista os pedidos com status e valor",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 4,
+  "tarefa": 13,
+  "desc": "Sino mostra notificações não lidas",
+  "ok": true,
+  "obs": "3 não lidas"
+ },
+ {
+  "grupo": 4,
+  "tarefa": 13,
+  "desc": "Notificações listam cada etapa do pedido",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 4,
+  "tarefa": 13,
+  "desc": "Status consultado para atualização em tempo real",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 4,
+  "tarefa": 14,
+  "desc": "Cancelar pedido \"Em preparação\" devolve o estoque",
+  "ok": true,
+  "obs": "Pistache 11 → 12"
+ },
+ {
+  "grupo": 4,
+  "tarefa": 14,
+  "desc": "Pedido cancelado não pode ser cancelado de novo",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 17,
+  "desc": "Admin entra direto no painel",
+  "ok": true,
+  "obs": "→ http://localhost:8090/admin"
+ },
+ {
+  "grupo": 5,
+  "tarefa": 17,
+  "desc": "Painel com contadores e alerta de estoque baixo",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 18,
+  "desc": "Arquivo que não é imagem é recusado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 18,
+  "desc": "Novo cupcake com foto aparece na vitrine",
+  "ok": true,
+  "obs": "→ http://localhost:8090/admin/cupcakes"
+ },
+ {
+  "grupo": 5,
+  "tarefa": 19,
+  "desc": "Estoque 0 deixa o cupcake \"Indisponível\" na vitrine",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 20,
+  "desc": "Não é possível pular de \"Em preparação\" para \"Entregue\"",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 20,
+  "desc": "Cliente vê \"Saiu para entrega\" após a mudança do admin",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 20,
+  "desc": "Pedido avançado até \"Entregue\"",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 20,
+  "desc": "Pedido entregue não pode ser cancelado",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 20,
+  "desc": "Cliente recebe as notificações de \"saiu\" e \"entregue\"",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": 18,
+  "desc": "Cupcake em pedido ativo não pode ser removido",
+  "ok": true,
+  "obs": ""
+ },
+ {
+  "grupo": 5,
+  "tarefa": "-",
+  "desc": "Cliente não acessa o painel admin",
+  "ok": true,
+  "obs": "HTTP 403"
+ },
+ {
+  "grupo": 5,
+  "tarefa": "-",
+  "desc": "Cliente não vê pedido de outro cliente",
+  "ok": true,
+  "obs": "HTTP 404"
+ }
+]

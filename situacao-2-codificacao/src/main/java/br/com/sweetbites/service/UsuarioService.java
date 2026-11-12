@@ -1,5 +1,6 @@
 package br.com.sweetbites.service;
 
+import br.com.sweetbites.dto.AlterarSenhaForm;
 import br.com.sweetbites.dto.CadastroForm;
 import br.com.sweetbites.model.Papel;
 import br.com.sweetbites.model.Usuario;
@@ -45,6 +46,25 @@ public class UsuarioService {
         emailService.enviar(email, "Bem-vindo(a) à Sweet Bites!",
                 "Olá, " + usuario.getNome() + "! Sua conta foi criada com sucesso.");
         return usuario;
+    }
+
+    /** Troca de senha pelo usuário logado: exige a senha atual e uma nova senha diferente dela. */
+    @Transactional
+    public void alterarSenha(Long usuarioId, AlterarSenhaForm form) {
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado"));
+        if (!passwordEncoder.matches(form.getSenhaAtual(), usuario.getSenhaHash())) {
+            throw new RegraNegocioException("A senha atual está incorreta.");
+        }
+        if (!form.getNovaSenha().equals(form.getConfirmarSenha())) {
+            throw new RegraNegocioException("As senhas não conferem.");
+        }
+        if (form.getNovaSenha().equals(form.getSenhaAtual())) {
+            throw new RegraNegocioException("A nova senha deve ser diferente da atual.");
+        }
+        usuario.redefinirSenha(passwordEncoder.encode(form.getNovaSenha()));
+        emailService.enviar(usuario.getEmail(), "Sweet Bites - sua senha foi alterada",
+                "A senha da sua conta foi alterada. Se não foi você, use 'Esqueci minha senha'.");
     }
 
     @Transactional(readOnly = true)

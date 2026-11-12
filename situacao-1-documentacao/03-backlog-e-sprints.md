@@ -20,6 +20,7 @@ Backlog priorizado do PIT I, atualizado com o andamento real do PIT II.
 | US-16 | Gerenciar pedidos (Admin) | 5 | Alta | 3 | ✅ Entregue |
 | US-19 | Cancelar pedido (cliente) *(nova)* | 2 | Média | 3 | ✅ Entregue |
 | US-20 | Gerenciar categorias (Admin) *(nova)* | 2 | Média | 3 | ✅ Entregue |
+| US-21 | Alterar senha logado *(nova, revisão de qualidade)* | 2 | Média | 3 | ✅ Entregue |
 | US-11 | Avaliar pedido | 3 | Média | 4 | ⏳ Planejada |
 | US-12 | Histórico com "Repetir pedido" | 3 | Média | 4 | ⏳ Parcial (listagem pronta) |
 | US-13 | Adicionar aos favoritos | 2 | Média | 4 | ⏳ Planejada |
@@ -31,10 +32,10 @@ Backlog priorizado do PIT I, atualizado com o andamento real do PIT II.
 |---|---|---|---|
 | 1 | Acesso e vitrine | 14 | Concluída |
 | 2 | Compra: busca, carrinho, pedido e pagamento | 22 | Concluída |
-| 3 | Pós-venda e administração | 27 (23 + 4 das histórias novas) | Concluída |
+| 3 | Pós-venda e administração | 29 (23 + 6 das histórias novas) | Concluída |
 | 4 | Fidelização e gestão | 16 | Próximo ciclo |
 
-**Velocidade:** 63 pontos entregues nas Sprints 1 a 3, de 79 pontos no backlog total (80%), com média de 21 pontos por sprint.
+**Velocidade:** 65 pontos entregues nas Sprints 1 a 3, de 81 pontos no backlog total (80%), com média de cerca de 22 pontos por sprint.
 
 ## Definição de pronto (Definition of Done)
 

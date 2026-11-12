@@ -31,7 +31,13 @@ Legenda de status:
 - RN#2 *(novo)*: A conta bloqueada é desbloqueada ao redefinir a senha (US-18).
 - RNF#1: Tempo de resposta máximo de 2 segundos.
 
-**Revisão PIT II:** o administrador usa a mesma tela de login e é levado direto ao painel.
+**Revisão PIT II:** o administrador usa a mesma tela de login e é levado direto ao painel. Quem já está logado e abre a tela de login é levado à vitrine. Com a sessão expirada, o sistema volta ao login com o aviso "Sua sessão foi encerrada" (BUG-06).
+
+### US-21: Alterar senha (logado) ✅ · Média · 2 pts · *nova no PIT II*
+**Ação:** Como um cliente logado, eu quero trocar minha senha informando a senha atual, para não precisar do fluxo de "Esqueci minha senha".
+- RN#1: A senha atual precisa estar correta. RN#2: A nova senha segue a regra de 8 caracteres ou mais, com letras e números, e deve ser diferente da atual.
+
+**Origem:** revisão de qualidade pós-aceitação (BUG-08 do laudo).
 
 ### US-03: Fazer logout ✅ · Alta · 1 pt
 **Ação:** Como um cliente autenticado, eu quero fazer logout, para que minha sessão seja encerrada com segurança.
@@ -76,6 +82,7 @@ Legenda de status:
 - RN#1: Máximo de 20 unidades por item (e nunca mais do que o estoque).
 - RN#2: O carrinho continua salvo mesmo se o app for fechado.
 - RN#3 *(novo)*: Os preços do carrinho são sempre recalculados pelo servidor.
+- RN#4 *(novo)*: O carrinho é de cada usuário: outra pessoa que entrar no mesmo aparelho não vê os itens do anterior (BUG-09).
 
 ---
 

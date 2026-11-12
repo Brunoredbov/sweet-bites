@@ -6,7 +6,10 @@
 (function () {
     'use strict';
 
-    var CHAVE_CARRINHO = 'sweetbites:carrinho';
+    // Carrinho separado por usuário: quem entrar depois no mesmo navegador não herda o carrinho anterior.
+    var metaUsuario = document.querySelector('meta[name="usuario-id"]');
+    var CHAVE_CARRINHO = 'sweetbites:carrinho:' + (metaUsuario ? metaUsuario.content : 'anonimo');
+    try { localStorage.removeItem('sweetbites:carrinho'); } catch (e) { /* chave antiga, compartilhada */ }
     var MAX_POR_ITEM = 20;
     var moeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -87,10 +90,19 @@
         });
     }
 
+    // Sessão expirada: a API responde 401 e o cliente é levado ao login com o aviso de sessão encerrada.
+    function verificarSessao(r) {
+        if (r.status === 401) {
+            window.location.href = '/login?expirada';
+            throw new Error('Sessão expirada');
+        }
+        return r;
+    }
+
     function buscarResumo() {
         return fetch('/api/carrinho?itens=' + encodeURIComponent(Carrinho.serializar()), {
             headers: { 'Accept': 'application/json' }, credentials: 'same-origin'
-        }).then(function (r) {
+        }).then(verificarSessao).then(function (r) {
             if (!r.ok) throw new Error('Falha ao carregar o carrinho');
             return r.json();
         });
@@ -285,6 +297,7 @@
             erroCep.textContent = '';
             infoCep.hidden = true;
             fetch('/api/frete?cep=' + digitos, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+                .then(verificarSessao)
                 .then(function (r) { return r.json().then(function (corpo) { return { ok: r.ok, corpo: corpo }; }); })
                 .then(function (res) {
                     if (!res.ok) {
@@ -361,6 +374,7 @@
         // US-10 CA#1: status em tempo real (consulta a cada 10 segundos).
         setInterval(function () {
             fetch('/api/pedidos/' + pagina.dataset.pedidoId + '/status', { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' })
+                .then(verificarSessao)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (s) {
                     if (s && s.status !== statusAtual) {

@@ -4,6 +4,7 @@
 <body>
 <div class="app">
     <header th:replace="~{fragments/layout :: topo('Perfil')}"></header>
+    <div th:replace="~{fragments/layout :: mensagens}"></div>
     <main class="conteudo">
         <div class="perfil-cabecalho">
             <div class="avatar" th:text="${#strings.substring(usuario.nome, 0, 1)}">B</div>
@@ -13,10 +14,10 @@
         <ul class="menu-lista">
             <li><a th:href="@{/pedidos}">Meus pedidos</a></li>
             <li><a th:href="@{/notificacoes}">Notificações</a></li>
-            <li><a th:href="@{/recuperar-senha}">Alterar senha</a></li>
+            <li><a th:href="@{/perfil/senha}">Alterar senha</a></li>
             <li th:if="${usuario.admin}"><a th:href="@{/admin}">Painel administrativo</a></li>
         </ul>
-        <form th:action="@{/logout}" method="post" data-limpar-carrinho-ao-enviar>
+        <form th:action="@{/logout}" method="post">
             <button type="submit" class="botao botao-bloco botao-perigo">Sair da conta</button>
         </form>
     </main>

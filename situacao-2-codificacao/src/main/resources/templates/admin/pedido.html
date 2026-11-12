@@ -59,7 +59,7 @@
         <h2>Pagamento</h2>
         <p>
             <span th:text="${pedido.formaPagamento.descricao}">forma</span> ·
-            <span th:text="${pedido.pagamento.status}">status</span>
+            <span th:text="${pedido.pagamento.status.descricao}">status</span>
             <span th:if="${pedido.pagamento.cartaoFinal != null}" th:text="' · final ' + ${pedido.pagamento.cartaoFinal} + ' · ' + ${pedido.pagamento.parcelas} + 'x'"></span>
         </p>
     </section>

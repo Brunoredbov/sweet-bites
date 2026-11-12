@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Alterar senha')}"></head>
+<body>
+<div class="app">
+    <header th:replace="~{fragments/layout :: topo('Alterar senha')}"></header>
+    <main class="conteudo">
+        <a th:href="@{/perfil}" class="voltar">← Voltar ao perfil</a>
+        <h1>Alterar senha</h1>
+        <form th:action="@{/perfil/senha}" th:object="${form}" method="post" novalidate>
+            <div class="campo" th:classappend="${#fields.hasErrors('senhaAtual')} ? 'invalido'">
+                <label for="senhaAtual">Senha atual</label>
+                <input type="password" id="senhaAtual" th:field="*{senhaAtual}" autocomplete="current-password" required>
+                <span class="erro-campo" th:if="${#fields.hasErrors('senhaAtual')}" th:text="${#fields.errors('senhaAtual')[0]}"></span>
+            </div>
+            <div class="campo" th:classappend="${#fields.hasErrors('novaSenha')} ? 'invalido'">
+                <label for="novaSenha">Nova senha</label>
+                <input type="password" id="novaSenha" th:field="*{novaSenha}" autocomplete="new-password" required>
+                <div class="ajuda">Mínimo de 8 caracteres, com letras e números.</div>
+                <span class="erro-campo" th:if="${#fields.hasErrors('novaSenha')}" th:text="${#fields.errors('novaSenha')[0]}"></span>
+            </div>
+            <div class="campo" th:classappend="${#fields.hasErrors('confirmarSenha')} ? 'invalido'">
+                <label for="confirmarSenha">Confirmar nova senha</label>
+                <input type="password" id="confirmarSenha" th:field="*{confirmarSenha}" autocomplete="new-password" required>
+                <span class="erro-campo" th:if="${#fields.hasErrors('confirmarSenha')}" th:text="${#fields.errors('confirmarSenha')[0]}"></span>
+            </div>
+            <button type="submit" class="botao botao-bloco">Salvar nova senha</button>
+        </form>
+    </main>
+    <nav th:replace="~{fragments/layout :: nav('perfil')}"></nav>
+</div>
+</body>
+</html>

@@ -1,9 +1,9 @@
 # 2. Testes automatizados (verificação)
 
-**Resultado da execução em 10/11/2026:** 47 testes, **47 aprovados**, 0 falhas, 0 erros (`./mvnw test`, cerca de 15 s).
+**Resultado da execução em 10/11/2026:** 56 testes, **56 aprovados**, 0 falhas, 0 erros (`./mvnw test`, cerca de 25 s).
 
 ```
-[INFO] Tests run: 47, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 56, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
 ```
 
@@ -72,6 +72,20 @@ Sobem a aplicação inteira (controllers, segurança, banco com Flyway). Só a A
 | pedidoCompletoComPixEOwnership | Compra via PIX, baixa de estoque, QR Code, outro cliente recebe 404, pagamento simulado | US-08, US-09, US-10, RNF-G3 |
 | checkoutRejeitaPedidoAbaixoDoMinimoMostrandoAMensagem | Mensagem do pedido mínimo na tela | US-08 RN#2 |
 | apiDeFreteDevolveErroAmigavelParaCepInvalido | CEP inválido → erro amigável; CEP de SP → R$ 7,00 / 45 min | UC-08 Alfa, US-08 RN#3 |
+
+### Testes de regressão da 2ª rodada (9): `CorrecoesRodada2Test`
+
+| Teste | Defeito coberto |
+|---|---|
+| bug06SessaoExpiradaAoEnviarFormularioLevaAoLoginComAviso | BUG-06 |
+| bug07ApiSemSessaoResponde401ParaOJavaScript | BUG-07 |
+| bug08ClienteAlteraSenhaPeloPerfil | BUG-08 (senha atual errada, nova igual à atual, sucesso e login com a nova) |
+| bug09LayoutInformaOUsuarioParaSepararOCarrinho | BUG-09 |
+| bug10StatusDoPagamentoNoAdminEmPortugues | BUG-10 |
+| bug11FiltroComPeriodoInvertidoAvisaOAdmin | BUG-11 |
+| bug12IdInvalidoNaUrlMostraPaginaNaoEncontrada | BUG-12 |
+| bug13UsuarioLogadoNaoVeTelaDeLoginDeNovo | BUG-13 |
+| bug14ImagemEntre5e10MBRecebeMensagemAmigavel | BUG-14 |
 
 ## Testes manuais de sistema (desenvolvedor)
 

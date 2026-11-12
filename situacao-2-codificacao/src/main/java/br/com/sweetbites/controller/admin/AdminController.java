@@ -41,7 +41,12 @@ public class AdminController {
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate de,
                           @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate ate,
                           Model model) {
-        model.addAttribute("pedidos", pedidoService.listarAdmin(status, de, ate));
+        if (de != null && ate != null && de.isAfter(ate)) {
+            model.addAttribute("erro", "A data inicial (\"De\") é posterior à data final (\"Até\"). Ajuste o período.");
+            model.addAttribute("pedidos", java.util.List.of());
+        } else {
+            model.addAttribute("pedidos", pedidoService.listarAdmin(status, de, ate));
+        }
         model.addAttribute("statusList", StatusPedido.values());
         model.addAttribute("statusSelecionado", status);
         model.addAttribute("de", de);

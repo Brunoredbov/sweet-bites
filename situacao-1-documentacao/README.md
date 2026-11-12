@@ -5,7 +5,7 @@ Revisão da documentação do **PIT I** (aplicativo Sweet Bites), com as atualiz
 | # | Documento | Conteúdo |
 |---|---|---|
 | 1 | [Visão geral](01-visao-geral.md) | Problema, objetivo, atores, escopo e decisão de plataforma |
-| 2 | [Requisitos](02-requisitos.md) | 20 histórias de usuário revisadas, com CA, RN, RNF e status |
+| 2 | [Requisitos](02-requisitos.md) | 21 histórias de usuário revisadas, com CA, RN, RNF e status |
 | 3 | [Backlog e sprints](03-backlog-e-sprints.md) | Backlog priorizado, pontos, andamento e definição de pronto |
 | 4 | [Casos de uso](04-casos-de-uso.md) | Diagrama geral e casos expandidos UC-08, UC-01 e UC-16 |
 | 5 | [Diagrama de classes](05-diagrama-de-classes.md) | Modelo de domínio corrigido + tabela de correções |

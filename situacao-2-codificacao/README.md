@@ -10,7 +10,7 @@ Loja virtual de cupcakes gourmet, com vitrine, carrinho, pedido, pagamento e aco
 | Padrão de projeto | MVC: `model` (entidades), `controller`, `templates` (views); regras de negócio em `service` |
 | Front-end | HTML5 + CSS3 + JavaScript puro, renderizados com Thymeleaf, layout mobile-first |
 | Banco de dados | PostgreSQL 16, com migrations versionadas pelo Flyway |
-| Testes | JUnit 5 + Mockito + Spring MockMvc (47 testes) |
+| Testes | JUnit 5 + Mockito + Spring MockMvc (56 testes) |
 | Hospedagem | Docker (Render), com o banco PostgreSQL no Neon |
 
 ## Estrutura
@@ -53,7 +53,7 @@ Para rodar os testes, que usam banco H2 em memória e não precisam de Docker:
 
 ### Cliente
 1. **Criar conta** (US-01): toque em *Cadastre-se* e informe nome, e-mail, telefone e senha (mínimo de 8 caracteres, com letras e números).
-2. **Entrar** (US-02): use e-mail e senha. Depois de 5 tentativas erradas a conta é bloqueada; para desbloquear, use *Esqueci minha senha*.
+2. **Entrar** (US-02): use e-mail e senha. Depois de 5 tentativas erradas a conta é bloqueada; para desbloquear, use *Esqueci minha senha*. Para trocar a senha estando logado, use **Perfil → Alterar senha**.
 3. **Recuperar senha** (US-18): informe o e-mail e use o link recebido, válido por 1 hora. Ao redefinir, todas as sessões abertas são encerradas.
 4. **Vitrine** (US-04/05): filtre por categoria ou busque por nome ou ingrediente. A busca acontece enquanto você digita. Cupcakes sem estoque aparecem como *Indisponível*.
 5. **Detalhes** (US-06): toque no cupcake para ver descrição, ingredientes e preço, escolher a quantidade e adicionar ao carrinho.

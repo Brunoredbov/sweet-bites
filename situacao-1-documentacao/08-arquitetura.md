@@ -48,7 +48,7 @@ flowchart TB
 | Framework | Spring Boot 4 (MVC, Security, Data JPA, Validation) | Padrão de mercado para MVC em Java, e é o que os vídeos do material usam |
 | Views | Thymeleaf + HTML5 + CSS3 + JavaScript puro | Exigência do material (HTML/CSS/JS), sem framework pesado no front |
 | Banco | PostgreSQL 16 + Flyway | SGBD popular; o esquema fica versionado no Git |
-| Testes | JUnit 5, Mockito, Spring MockMvc, H2 | 47 testes rodando em segundos, sem precisar de banco externo |
+| Testes | JUnit 5, Mockito, Spring MockMvc, H2 | 56 testes rodando em segundos, sem precisar de banco externo |
 | Build | Maven (wrapper `mvnw`) | Quem clona o repositório não precisa instalar o Maven |
 | Deploy | Docker → Render; banco no Neon | Planos gratuitos com URL pública e HTTPS |
 

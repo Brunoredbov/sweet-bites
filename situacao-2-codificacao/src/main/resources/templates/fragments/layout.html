@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#FF6B8A">
     <meta name="_csrf" th:if="${_csrf != null}" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:if="${_csrf != null}" th:content="${_csrf.headerName}">
+    <meta name="usuario-id" th:if="${usuario != null}" th:content="${usuario.id}">
     <title th:text="${titulo} + ' · Sweet Bites'">Sweet Bites</title>
     <link rel="icon" th:href="@{/favicon.svg}" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">

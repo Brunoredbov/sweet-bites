@@ -53,7 +53,7 @@ public class ApiController {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Map.of("erro", e.getMessage()));
     }
 
-    @ExceptionHandler(RecursoNaoEncontradoException.class)
+    @ExceptionHandler({RecursoNaoEncontradoException.class, org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class})
     public ResponseEntity<Map<String, String>> naoEncontrado() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("erro", "Não encontrado"));
     }

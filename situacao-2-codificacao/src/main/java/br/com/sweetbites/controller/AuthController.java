@@ -1,5 +1,6 @@
 package br.com.sweetbites.controller;
 
+import br.com.sweetbites.config.UsuarioLogado;
 import br.com.sweetbites.dto.CadastroForm;
 import br.com.sweetbites.dto.RedefinirSenhaForm;
 import br.com.sweetbites.service.RecuperacaoSenhaService;
@@ -7,6 +8,7 @@ import br.com.sweetbites.service.RegraNegocioException;
 import br.com.sweetbites.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,12 +31,18 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@AuthenticationPrincipal UsuarioLogado usuario) {
+        if (usuario != null) {
+            return usuario.isAdmin() ? "redirect:/admin" : "redirect:/";
+        }
         return "auth/login";
     }
 
     @GetMapping("/cadastro")
-    public String cadastro(Model model) {
+    public String cadastro(@AuthenticationPrincipal UsuarioLogado usuario, Model model) {
+        if (usuario != null) {
+            return "redirect:/";
+        }
         model.addAttribute("form", new CadastroForm());
         return "auth/cadastro";
     }

@@ -27,7 +27,7 @@ O administrador mantém o cardápio, o estoque e os pedidos num painel próprio.
 
 | Entregue no PIT II (Sprints 1 a 3) | Fica para a evolução (Sprint 4) |
 |---|---|
-| Cadastro, login, logout, recuperação de senha | US-11 Avaliar pedido |
+| Cadastro, login, logout, recuperação e troca de senha | US-11 Avaliar pedido |
 | Vitrine, busca, detalhes, carrinho | US-12 Histórico com "Repetir pedido" |
 | Pedido com frete por CEP, pagamento, acompanhamento | US-13 Favoritos |
 | Admin: produtos, estoque, pedidos, categorias | US-17 Relatórios de vendas em PDF |

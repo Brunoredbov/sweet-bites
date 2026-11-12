@@ -1,6 +1,16 @@
 package br.com.sweetbites.controller;
 
+import br.com.sweetbites.config.UsuarioLogado;
+import br.com.sweetbites.dto.AlterarSenhaForm;
 import br.com.sweetbites.model.ImagemProduto;
+import br.com.sweetbites.service.RegraNegocioException;
+import br.com.sweetbites.service.UsuarioService;
+import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.sweetbites.service.CatalogoService;
 import org.springframework.http.CacheControl;
 import org.springframework.http.MediaType;
@@ -18,9 +28,11 @@ import java.time.Duration;
 public class LojaController {
 
     private final CatalogoService catalogoService;
+    private final UsuarioService usuarioService;
 
-    public LojaController(CatalogoService catalogoService) {
+    public LojaController(CatalogoService catalogoService, UsuarioService usuarioService) {
         this.catalogoService = catalogoService;
+        this.usuarioService = usuarioService;
     }
 
     @GetMapping("/")
@@ -64,5 +76,29 @@ public class LojaController {
     @GetMapping("/perfil")
     public String perfil() {
         return "loja/perfil";
+    }
+
+    @GetMapping("/perfil/senha")
+    public String alterarSenha(Model model) {
+        model.addAttribute("form", new AlterarSenhaForm());
+        return "loja/alterar-senha";
+    }
+
+    @PostMapping("/perfil/senha")
+    public String salvarSenha(@AuthenticationPrincipal UsuarioLogado usuario,
+                              @Valid @ModelAttribute("form") AlterarSenhaForm form, BindingResult resultado,
+                              RedirectAttributes redirect) {
+        if (resultado.hasErrors()) {
+            return "loja/alterar-senha";
+        }
+        try {
+            usuarioService.alterarSenha(usuario.getId(), form);
+        } catch (RegraNegocioException e) {
+            String campo = e.getMessage().contains("atual está") ? "senhaAtual" : "confirmarSenha";
+            resultado.rejectValue(campo, "regra", e.getMessage());
+            return "loja/alterar-senha";
+        }
+        redirect.addFlashAttribute("sucesso", "Senha alterada com sucesso!");
+        return "redirect:/perfil";
     }
 }

@@ -16,6 +16,7 @@ Mudanças feitas na documentação do PIT I durante o PIT II e o motivo de cada 
 | R10 | Sequência | Pagamento passa pelo servidor, não mais direto do app ao gateway | Falha de segurança no desenho original |
 | R11 | Novos artefatos | Diagrama de estados do pedido, sequência de recuperação de senha, DER, dicionário de dados, arquitetura | Pedidos do material teórico (projeto físico de BD, MVC) |
 | R12 | Protótipos | Removidos elementos sem história (login social, cupom) | Manter o protótipo alinhado ao backlog |
+| R13 | Histórias | Nova US-21 (alterar senha logado); novas regras: carrinho por usuário e aviso de sessão expirada | Revisão de qualidade pós-aceitação (BUG-06 a BUG-14 do laudo) |
 
 ## Feedback dos colegas sobre a documentação
 

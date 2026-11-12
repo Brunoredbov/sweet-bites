@@ -2,7 +2,12 @@ package br.com.sweetbites.config;
 
 import br.com.sweetbites.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.csrf.CsrfException;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +22,9 @@ import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @Configuration
 public class SecurityConfig {
+
+    private static final RequestMatcher API = PathPatternRequestMatcher.withDefaults().matcher("/api/**");
+    private static final LoginUrlAuthenticationEntryPoint TELA_DE_LOGIN = new LoginUrlAuthenticationEntryPoint("/login");
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -78,6 +86,23 @@ public class SecurityConfig {
                 .maximumSessions(-1)
                 .sessionRegistry(sessionRegistry)
                 .expiredUrl("/login?expirada"))
+            // Sessão expirada (token CSRF inválido) leva ao login com aviso, em vez de "Acesso negado".
+            .exceptionHandling(ex -> ex
+                .accessDeniedHandler((request, response, negado) -> {
+                    if (negado instanceof CsrfException) {
+                        response.sendRedirect(request.getContextPath() + "/login?expirada");
+                    } else {
+                        response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                    }
+                })
+                // A API usada pelo JavaScript responde 401; as páginas continuam indo para o login.
+                .authenticationEntryPoint((request, response, falha) -> {
+                    if (API.matches(request)) {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    } else {
+                        TELA_DE_LOGIN.commence(request, response, falha);
+                    }
+                }))
             .headers(headers -> headers
                 .contentSecurityPolicy(csp -> csp.policyDirectives(
                         "default-src 'self'; img-src 'self' data:; style-src 'self' https://fonts.googleapis.com; "
