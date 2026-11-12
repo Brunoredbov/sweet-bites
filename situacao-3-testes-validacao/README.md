@@ -12,3 +12,5 @@
 Os prints dos testes ficam em [`evidencias/`](evidencias/).
 
 🎬 **Vídeo da solução atualizada (correções BUG-06 a BUG-14, 2min22s):** [`video/video-correcoes-bugs.mp4`](video/video-correcoes-bugs.mp4)
+
+📄 **Versão em PDF de cada documento** (com os diagramas já desenhados): pasta [`pdf/`](pdf/).

@@ -1,5 +1,7 @@
 # Sweet Bites: código da aplicação (Situação-Problema 2)
 
+📄 Versão em PDF deste manual: [`pdf/README.pdf`](pdf/README.pdf).
+
 Loja virtual de cupcakes gourmet, com vitrine, carrinho, pedido, pagamento e acompanhamento da entrega, além de um painel do administrador. Foi construída a partir da especificação do PIT I (histórias de usuário, UML e protótipos).
 
 ## Tecnologias

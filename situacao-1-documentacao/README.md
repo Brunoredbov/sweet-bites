@@ -16,3 +16,5 @@ Revisão da documentação do **PIT I** (aplicativo Sweet Bites), com as atualiz
 | 10 | [Registro de revisões](10-registro-de-revisoes.md) | O que mudou desde o PIT I e por quê |
 
 Os artefatos originais do PIT I estão em [`imagens/pit1-original/`](imagens/pit1-original/).
+
+📄 **Versão em PDF de cada documento** (com os diagramas já desenhados): pasta [`pdf/`](pdf/).
