@@ -2,7 +2,7 @@
 
 Olá! Obrigado por testar a **Sweet Bites**, uma loja virtual de cupcakes. O teste leva uns 15 minutos. Use, de preferência, o **celular**.
 
-**Link da aplicação:** _(será preenchido quando o sistema estiver no ar)_ · O servidor gratuito "dorme" quando ninguém usa: **o primeiro acesso pode levar até 1 minuto**.
+**Link da aplicação:** https://sweet-bites-s1we.onrender.com · O servidor gratuito "dorme" quando ninguém usa: **o primeiro acesso pode levar até 1 minuto**.
 
 > Pagamentos, PIX e e-mails são **simulados**: nada é cobrado de verdade. Não use dados reais de cartão.
 

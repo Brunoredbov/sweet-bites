@@ -1,5 +1,7 @@
 # Sweet Bites: código da aplicação (Situação-Problema 2)
 
+🌐 **Aplicação no ar:** https://sweet-bites-s1we.onrender.com (o primeiro acesso pode levar cerca de 1 minuto, porque o servidor gratuito "dorme" quando ninguém usa).
+
 📄 Versão em PDF deste manual: [`pdf/README.pdf`](pdf/README.pdf).
 
 🎬 **Vídeo narrado da solução em funcionamento (8min33s):** [assistir no Google Drive](https://drive.google.com/file/d/1sC_xMW-_-AaMJVmq672bEacwdr8863vr/view?usp=sharing)

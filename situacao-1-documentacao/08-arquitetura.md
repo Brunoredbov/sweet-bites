@@ -52,9 +52,20 @@ flowchart TB
 | Build | Maven (wrapper `mvnw`) | Quem clona o repositório não precisa instalar o Maven |
 | Deploy | Docker → Render; banco no Neon | Planos gratuitos com URL pública e HTTPS |
 
-## 8.3 Implantação (planejada)
+## 8.3 Implantação
 
-> A publicação será feita no fim do projeto. Até lá, a aplicação roda localmente com `docker compose` (ver o [README do código](../situacao-2-codificacao/README.md)).
+**Aplicação no ar:** https://sweet-bites-s1we.onrender.com
+
+| Item | Configuração |
+|---|---|
+| Aplicação | Render, Web Service gratuito (512 MB), contêiner Docker gerado pelo `Dockerfile` de `situacao-2-codificacao`, região Ohio (EUA) |
+| Banco | Neon, PostgreSQL 16 gratuito, região AWS US East 2 (Ohio), conexão com SSL |
+| Esquema | Criado pelo Flyway na primeira subida (`V1__criar_tabelas.sql`) |
+| Segredos | Variáveis de ambiente no painel do Render (`DATABASE_*`, `ADMIN_*`), nunca no código |
+| Saúde | O Render consulta `/actuator/health`, que inclui a conexão com o banco |
+| Atualização | Cada push na branch `main` gera um novo deploy automático |
+
+No plano gratuito, o serviço "dorme" depois de 15 minutos sem uso, e o primeiro acesso seguinte pode levar cerca de 1 minuto. Localmente, a aplicação roda com `docker compose` (ver o [README do código](../situacao-2-codificacao/README.md)).
 
 ```mermaid
 flowchart LR
