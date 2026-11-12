@@ -6,17 +6,17 @@ O material da disciplina indica o padrão **MVC**, e a aplicação segue esse pa
 
 ```mermaid
 flowchart TB
-    subgraph View["VIEW: templates Thymeleaf + CSS + JavaScript"]
+    subgraph View["VIEW"]
         T1["loja/vitrine.html<br/>loja/carrinho.html<br/>pedido/checkout.html ..."]
         JS["static/js/app.js<br/>(carrinho, busca em tempo real,<br/>CEP, acompanhamento)"]
     end
-    subgraph Controller["CONTROLLER: recebe a requisição e escolhe a view"]
+    subgraph Controller["CONTROLLER"]
         C1["AuthController · LojaController<br/>PedidoController · ApiController<br/>AdminController · AdminCupcakeController"]
     end
-    subgraph Service["SERVICE: regras de negócio"]
+    subgraph Service["SERVICE"]
         S1["PedidoService · CarrinhoService · CatalogoService<br/>PagamentoService · FreteService · UsuarioService<br/>RecuperacaoSenhaService · NotificacaoService"]
     end
-    subgraph Model["MODEL: entidades JPA + repositórios"]
+    subgraph Model["MODEL"]
         M1["Usuario · Cupcake · Pedido · ItemPedido<br/>Pagamento · Entrega · Notificacao ..."]
         R1["*Repository (Spring Data JPA)"]
     end

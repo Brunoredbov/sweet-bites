@@ -11,3 +11,5 @@ Projeto Integrador Transdisciplinar em Engenharia de Software II, uma continuaç
 **Stack:** Java 17 · Spring Boot 4 (MVC) · Thymeleaf · HTML/CSS/JavaScript · PostgreSQL · JUnit 5
 
 Veja como rodar e usar o sistema em [`situacao-2-codificacao/README.md`](situacao-2-codificacao/README.md).
+
+📄 **Toda a documentação num só arquivo:** [`Documentacao-Sweet-Bites.pdf`](Documentacao-Sweet-Bites.pdf), com sumário e diagramas já desenhados.
