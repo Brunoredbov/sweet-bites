@@ -13,3 +13,10 @@ Projeto Integrador Transdisciplinar em Engenharia de Software II, uma continuaç
 Veja como rodar e usar o sistema em [`situacao-2-codificacao/README.md`](situacao-2-codificacao/README.md).
 
 📄 **Toda a documentação num só arquivo:** [`Documentacao-Sweet-Bites.pdf`](Documentacao-Sweet-Bites.pdf), com sumário e diagramas já desenhados.
+
+## 🎬 Vídeos
+
+| Vídeo | Duração | Link |
+|---|---|---|
+| Solução em funcionamento (narrado) | 8min33s | [Google Drive](https://drive.google.com/file/d/1sC_xMW-_-AaMJVmq672bEacwdr8863vr/view?usp=sharing) |
+| Solução atualizada: correções BUG-06 a BUG-14 | 2min22s | [Google Drive](https://drive.google.com/file/d/1QL9lQnLfMLeqiMLUlxdN0ENqF0JtyFPY/view?usp=drive_link) · [cópia no repositório](situacao-3-testes-validacao/video/video-correcoes-bugs.mp4) |

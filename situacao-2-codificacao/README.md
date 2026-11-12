@@ -2,6 +2,8 @@
 
 📄 Versão em PDF deste manual: [`pdf/README.pdf`](pdf/README.pdf).
 
+🎬 **Vídeo narrado da solução em funcionamento (8min33s):** [assistir no Google Drive](https://drive.google.com/file/d/1sC_xMW-_-AaMJVmq672bEacwdr8863vr/view?usp=sharing)
+
 Loja virtual de cupcakes gourmet, com vitrine, carrinho, pedido, pagamento e acompanhamento da entrega, além de um painel do administrador. Foi construída a partir da especificação do PIT I (histórias de usuário, UML e protótipos).
 
 ## Tecnologias
